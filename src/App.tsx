@@ -1,10 +1,11 @@
-import Home from "./pages/home";
+import Header from "./shared/components/Header";
 
 function App() {
-
-  return<>
-  <Home></Home></> 
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
-
 
 export default App;
