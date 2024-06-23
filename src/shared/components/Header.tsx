@@ -53,7 +53,7 @@ export default function Header() {
         <CalendarDays className="size-6" />
         <span className="logo">Calendar</span>
         <Button variant="outline" className="present-day">
-          <HoverCard>
+          <HoverCard openDelay={300}>
             <HoverCardTrigger>
               <span>Today</span>
             </HoverCardTrigger>
@@ -64,7 +64,7 @@ export default function Header() {
         </Button>
         <div className="arrows">
           <Button variant="ghost" className="hover-arrow">
-            <HoverCard>
+            <HoverCard openDelay={300}>
               <HoverCardTrigger>
                 <ChevronLeft className="size-6" />
               </HoverCardTrigger>
@@ -74,7 +74,7 @@ export default function Header() {
             </HoverCard>
           </Button>
           <Button variant="ghost" className="hover-arrow">
-            <HoverCard>
+            <HoverCard openDelay={300}>
               <HoverCardTrigger>
                 <ChevronRight className="size-6" />
               </HoverCardTrigger>
