@@ -1,8 +1,15 @@
 import React from "react";
-import { momentLocalizer, Event, Calendar } from "react-big-calendar";
+import {
+  momentLocalizer,
+  Event,
+  Calendar,
+  NavigateAction,
+  View,
+} from "react-big-calendar";
 import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import useCalendarSlider, { CalendarView } from "./CalendarSlider";
 
 const localizer = momentLocalizer(moment);
 const DndCalendar = withDragAndDrop(Calendar);
@@ -17,45 +24,33 @@ interface BigCalendarProps {
   events: MyEvent[];
 }
 
-interface BigCalendarState {
-  events: MyEvent[];
-}
+const BigCalendar: React.FC<BigCalendarProps> = ({ events }) => {
+  const {
+    currentDate,
+    setCurrentDate,
+    navigateDate,
+    currentView,
+    setCurrentView,
+  } = useCalendarSlider();
 
-export default class BigCalendar extends React.Component<
-  BigCalendarProps,
-  BigCalendarState
-> {
-  constructor(props: BigCalendarProps) {
-    super(props);
-    this.state = {
-      events: props.events,
-    };
-  }
+  return (
+    <div className="h-[41.1vw]">
+      <DndCalendar
+        date={currentDate}
+        onNavigate={(newDate: Date, _view: string, action: NavigateAction) => {
+          if (action === "PREV") navigateDate("PREV");
+          else if (action === "NEXT") navigateDate("NEXT");
+          else if (action === "TODAY") setCurrentDate(new Date());
+          else setCurrentDate(newDate);
+        }}
+        events={events}
+        localizer={localizer}
+        view={currentView as View}
+        onView={(newView: View) => setCurrentView(newView as CalendarView)}
+        toolbar={false}
+      />
+    </div>
+  );
+};
 
-  onEventResize = (data: any) => {
-    const { start, end } = data;
-    this.setState((state) => {
-      state.events[0].start = start;
-      state.events[0].end = end;
-      return { events: [...state.events] };
-    });
-  };
-
-  onEventDrop = (data: any) => {
-    console.log(data);
-  };
-
-  render() {
-    return (
-      <div className="m-2 h-[40vw]">
-        <DndCalendar
-          defaultDate={moment().toDate()}
-          defaultView="month"
-          events={this.state.events}
-          localizer={localizer}
-          toolbar={false}
-        />
-      </div>
-    );
-  }
-}
+export default BigCalendar;

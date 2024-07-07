@@ -1,4 +1,5 @@
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
+import useCalendarSlider, { CalendarView } from "./CalendarSlider";
 import {
   HoverCard,
   HoverCardContent,
@@ -13,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const daysOfWeek = [
@@ -47,12 +49,28 @@ export default function Header() {
   const currentMonth = monthsOfYear[currentMonthIndex];
   const info = `${currentDayOfWeek}, ${currentMonth} ${currentDayOfMonth}`;
 
+  const { setCurrentDate, navigateDate, currentMonthLabel, setCurrentView } =
+    useCalendarSlider();
+
+  const handleTodayClick = () => {
+    setCurrentDate(new Date());
+  };
+
+  const handleViewChange = (value: string) => {
+    setCurrentView(value.toLowerCase() as CalendarView);
+  };
   return (
     <div>
-      <div className="navbar">
-        <CalendarDays className="size-6" />
-        <span className="logo">Calendar</span>
-        <Button variant="outline" className="present-day">
+      <div className="ml-[3%] mt-4 flex items-center">
+        <Link to="/" className="flex items-center">
+          <CalendarDays className="size-6" />
+          <span className="logo">Calendar</span>
+        </Link>
+        <Button
+          variant="outline"
+          className="present-day"
+          onClick={handleTodayClick}
+        >
           <HoverCard openDelay={300}>
             <HoverCardTrigger>
               <span>Today</span>
@@ -63,7 +81,11 @@ export default function Header() {
           </HoverCard>
         </Button>
         <div className="arrows">
-          <Button variant="ghost" className="hover-arrow">
+          <Button
+            variant="ghost"
+            className="hover-arrow"
+            onClick={() => navigateDate("PREV")}
+          >
             <HoverCard openDelay={300}>
               <HoverCardTrigger>
                 <ChevronLeft className="size-6" />
@@ -73,7 +95,11 @@ export default function Header() {
               </HoverCardContent>
             </HoverCard>
           </Button>
-          <Button variant="ghost" className="hover-arrow">
+          <Button
+            variant="ghost"
+            className="hover-arrow"
+            onClick={() => navigateDate("NEXT")}
+          >
             <HoverCard openDelay={300}>
               <HoverCardTrigger>
                 <ChevronRight className="size-6" />
@@ -84,20 +110,17 @@ export default function Header() {
             </HoverCard>
           </Button>
         </div>
-        <p className="month">June 2024</p>
+        <p className="month">{currentMonthLabel}</p>
       </div>
       <div className="types">
-        <Select>
+        <Select onValueChange={handleViewChange}>
           <SelectTrigger className="h-[40px] w-[110px]">
             <SelectValue placeholder="Month" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Day">Day</SelectItem>
-            <SelectItem value="Week">Week</SelectItem>
-            <SelectItem value="Month">Month</SelectItem>
-            <SelectItem value="Year">Year</SelectItem>
-            <SelectItem value="Schedule">Schedule</SelectItem>
-            <SelectItem value="4 days">4 days</SelectItem>
+            <SelectItem value="day">Day</SelectItem>
+            <SelectItem value="week">Week</SelectItem>
+            <SelectItem value="month">Month</SelectItem>
           </SelectContent>
         </Select>
       </div>
