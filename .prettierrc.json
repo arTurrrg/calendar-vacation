@@ -1,19 +1,17 @@
 {
-    "trailingComma": "es5",
-    "semi": true,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "jsxSingleQuote": true,
-    "printWidth": 80,
-    "plugins": [
-        "prettier-plugin-tailwindcss"
-    ],
-    "importOrder": [
-        "^react(.*)",
-        "antd/(.*)",
-        "<THIRD_PARTY_MODULES>",
-        "@/(.*)",
-        "^[./]"
-    ],
-    "importOrderSeparation": true
+  "trailingComma": "es5",
+  "semi": true,
+  "tabWidth": 2,
+  "singleQuote": false,
+  "jsxSingleQuote": false,
+  "printWidth": 80,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "importOrder": [
+    "^react(.*)",
+    "antd/(.*)",
+    "<THIRD_PARTY_MODULES>",
+    "@/(.*)",
+    "^[./]"
+  ],
+  "importOrderSeparation": true
 }
